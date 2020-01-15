@@ -1,0 +1,17 @@
+{
+    "name"       : "sevenphp/the-mini-catalog",
+    "description": "A WordPress plugin to handle creating peoducts and displaying a catalog",
+    "keywords"   : ["the-mini-catalog"],
+    "type"       : "wordpress-plugin",
+    "license"    : "GPL-3.0",
+    "authors"    : [
+        {
+            "name"    : "Wassseem Khayrattee",
+            "email"   : "wasseem@khayrattee.com",
+            "homepage": "https://7php.com"
+        }
+    ],
+    "require"    : {
+        "composer/installers": "~1.7"
+    }
+}
