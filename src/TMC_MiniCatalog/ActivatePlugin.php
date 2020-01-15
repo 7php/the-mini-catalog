@@ -13,5 +13,11 @@ class ActivatePlugin
 {
     public function __construct()
     {
+        /**
+         * order of execution matters
+         * ref: https://developer.wordpress.org/reference/functions/register_post_type/#flushing-rewrite-on-activation
+         */
+        initOurCustomPostType();
+        flush_rewrite_rules();
     }
 }
