@@ -20,6 +20,10 @@
  *
  *     // activate the autoloader
  *     $loader->register();
+ *
+ * Credit:
+ *      Based on the initial Symfony v2.0 Autoloader Class, which has been
+ *          made obsolete in later versions infvor of composer autoloading
  */
 class UniversalClassLoader
 {

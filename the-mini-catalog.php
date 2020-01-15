@@ -31,7 +31,7 @@ define('TMC_SRC', plugin_dir_path( __FILE__ ) . 'src' . DS); //with trailing sla
 /**
  * The code that runs during plugin activation.
  */
-function activate_the_mini_catalog()
+function activate_the_mini_catalog_tmc()
 {
     new \MiniCatalog\ActivatePlugin();
 }
@@ -40,7 +40,7 @@ function activate_the_mini_catalog()
  * The code that runs during plugin deactivation.
  * ref: https://developer.wordpress.org/plugins/plugin-basics/activation-deactivation-hooks/
  */
-function deactivate_the_mini_catalog()
+function deactivate_the_mini_catalog_tmc()
 {
     new \MiniCatalog\DeActivatePlugin();
 }
@@ -61,5 +61,5 @@ function tmc_initAutoloading($plugin_dir)
 }
 
 tmc_initAutoloading(TMC_PLUGIN_ROOT);
-register_activation_hook(__FILE__, 'activate_the_mini_catalog');
-register_deactivation_hook(__FILE__, 'deactivate_the_mini_catalog');
+register_activation_hook(__FILE__, 'activate_the_mini_catalog_tmc');
+register_deactivation_hook(__FILE__, 'deactivate_the_mini_catalog_tmc');

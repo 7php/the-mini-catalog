@@ -7,11 +7,11 @@
  * ref: https://developer.wordpress.org/plugins/plugin-basics/activation-deactivation-hooks/
  */
 
-namespace MiniCatalog;
+namespace TMC_MiniCatalog;
 
 /**
  * Class DeActivatePlugin
- * @package MiniCatalog
+ * @package TMC_MiniCatalog
  */
 class DeActivatePlugin
 {

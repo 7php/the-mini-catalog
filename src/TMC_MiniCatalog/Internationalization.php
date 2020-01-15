@@ -3,7 +3,7 @@
  * To be used when we are coping for more than one languages
  */
 
-namespace MiniCatalog;
+namespace TMC_MiniCatalog;
 
 
 class Internationalization

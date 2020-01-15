@@ -3,11 +3,11 @@
  * Execute during plugin activation
  */
 
-namespace MiniCatalog;
+namespace TMC_MiniCatalog;
 
 /**
  * Class ActivatePlugin
- * @package MiniCatalog
+ * @package TMC_MiniCatalog
  */
 class ActivatePlugin
 {
