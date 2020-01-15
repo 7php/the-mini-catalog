@@ -33,7 +33,7 @@ define('TMC_SRC', plugin_dir_path( __FILE__ ) . 'src' . DS); //with trailing sla
  */
 function activate_the_mini_catalog_tmc()
 {
-    new \MiniCatalog\ActivatePlugin();
+    new \TMC_MiniCatalog\ActivatePlugin();
 }
 
 /**
@@ -42,7 +42,7 @@ function activate_the_mini_catalog_tmc()
  */
 function deactivate_the_mini_catalog_tmc()
 {
-    new \MiniCatalog\DeActivatePlugin();
+    new \TMC_MiniCatalog\DeActivatePlugin();
 }
 
 /**
@@ -60,6 +60,19 @@ function tmc_initAutoloading($plugin_dir)
     $autoLoader->register();
 }
 
+/**
+ * CPTs don't get added to the DB
+ * Hence we need our CPT object to be always present
+ *
+ * @throws Exception
+ */
+function initOurCustomPostType()
+{
+    $productObject = new \TMC_MiniCatalog\ProductPostType();
+    $productObject->register();
+}
+
 tmc_initAutoloading(TMC_PLUGIN_ROOT);
 register_activation_hook(__FILE__, 'activate_the_mini_catalog_tmc');
 register_deactivation_hook(__FILE__, 'deactivate_the_mini_catalog_tmc');
+add_action('init', 'initOurCustomPostType');
