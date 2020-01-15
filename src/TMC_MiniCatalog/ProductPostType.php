@@ -51,6 +51,8 @@ class ProductPostType
                                             "editor",
                                             "thumbnail" 
                                         ],
+            "menu_icon"             => __( PostTypeEnum::MENU_ICON, $this->text_domain),
+            "menu_position"         => __( PostTypeEnum::MENU_POSITION, $this->text_domain),
         ];
     }
     
