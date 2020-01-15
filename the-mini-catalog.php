@@ -24,7 +24,9 @@ if ( ! defined( 'WPINC')) {
 }
 define( 'PLUGIN_NAME_VERSION', '1.0.0' );
 define( 'TMC_TEXT_DOMAIN', 'the-mini-catalog' );
-define('DS', DIRECTORY_SEPARATOR); //[NOTE: do not confuse with PATH_SEPARATOR == : ]
+if (! defined('DS')) {
+    define('DS', DIRECTORY_SEPARATOR); //[NOTE: do not confuse with PATH_SEPARATOR == : ]
+}
 define('TMC_PLUGIN_ROOT', plugin_dir_path( __FILE__ ) ); //with trailing slash at end
 define('TMC_SRC', plugin_dir_path( __FILE__ ) . 'src' . DS); //with trailing slash at end
 
@@ -53,7 +55,7 @@ function tmc_initAutoloading($plugin_dir)
     require_once $plugin_dir . 'src/UniversalClassLoader.php';
 
     $namespace_array = [
-        'TMC_MiniCatalog' => SRC,
+        'TMC_MiniCatalog' => TMC_SRC,
     ];
     $autoLoader = new UniversalClassLoader();
     $autoLoader->registerNamespaces($namespace_array);
