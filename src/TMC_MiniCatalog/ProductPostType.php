@@ -47,18 +47,71 @@ class ProductPostType
             throw new \Exception('Check why TMC_TEXT_DOMAIN is not defined');
         }
         $this->text_domain = TMC_TEXT_DOMAIN;
+
+        add_action('add_meta_boxes', [self::getInstance(), 'add_meta_box']);
+//        add_action( 'save_post',      array( $this, 'save'         ) );
     }
 
+    public function add_meta_box($post_type)
+    {
+        // Limit meta box to certain post types.
+        $post_types = [ 'post',
+                        'page',
+                        PostTypeEnum::CUSTOM_POST_TYPE
+        ];
+
+        if (in_array($post_type, $post_types)) {
+            $custom_fields_list = $this->fieldsProvider();
+            $meta_box_title     = "TMC Product Custom Fields List";
+            $meta_box_id        = "tmc_custom_fields_group";
+            add_meta_box(
+                $meta_box_id,
+                $meta_box_title,
+                [self::getInstance(), 'custom_box_html'],
+                \TMC_MiniCatalog\PostTypeEnum::CUSTOM_POST_TYPE,
+                'advanced',
+                'high'
+            );
+        }
+    }
+
+    public function custom_box_html($post)
+    {
+        global $post;
+        //$value = get_post_meta( $post->ID, $fieldArray['args']['key'], true );
+
+        $tpl = tplObject();
+        $tpl->setTemplate('custom_fields.tpl.php');
+        $tpl->display();
+    }
+
+    /**
+     * Registers the new CPT into the WP system
+     *
+     * @throws \Exception
+     */
     public function register()
     {
         register_post_type(PostTypeEnum::CUSTOM_POST_TYPE, $this->argsProvider());
+        add_action('pre_get_posts', [self::getInstance(), 'addCustomPostToPostQuery']);
     }
 
-    public function addCustomPostToPostQuery()
+    /**
+     * @param \WP_Query $query
+     * @return mixed
+     */
+    public function addCustomPostToPostQuery($query)
     {
-
+        if (is_home() && $query->is_main_query()) {
+            $query->set('post_type', ['post', PostTypeEnum::CUSTOM_POST_TYPE]);
+        }
+        return $query;
     }
 
+    /**
+     * Args for the Custom Post type
+     * @return array
+     */
     private function argsProvider()
     {
         return [
@@ -91,7 +144,11 @@ class ProductPostType
             "menu_position"         => __( PostTypeEnum::MENU_POSITION, $this->text_domain),
         ];
     }
-    
+
+    /**
+     * Labels for the custom post type
+     * @return array
+     */
     private function labelsProvider()
     {
         return [
@@ -127,6 +184,86 @@ class ProductPostType
             "item_scheduled"            => __( PostTypeEnum::ITEM_SCHEDULED, $this->text_domain),
             "item_updated"              => __( PostTypeEnum::ITEM_UPDATED, $this->text_domain),
             "parent_item_colon"         => __( PostTypeEnum::PARENT, $this->text_domain),
+        ];
+    }
+
+    /**
+     * List of the custom fields for the custom post
+     * @return array
+     */
+    public function fieldsProvider()
+    {
+        return [
+            [
+                'key' => 'tmc_price',
+                'label' => 'Price',
+                'name' => 'tmc_price',
+                'type' => 'number',
+                'required' => 1,
+            ],
+            [
+                'key' => 'tmc_display_price',
+                'label' => 'Display price',
+                'name' => 'tmc_display_price',
+                'type' => 'true_false',
+                'required' => 0,
+            ],
+            [
+                'key' => 'tmc_quantity',
+                'label' => 'Quantity',
+                'name' => 'tmc_quantity',
+                'type' => 'number',
+                'required' => 0,
+            ],
+            [
+                'key' => 'tmc_display_quantity',
+                'label' => 'Display Quantity',
+                'name' => 'tmc_display_quantity',
+                'type' => 'true_false',
+                'required' => 0,
+            ],
+            [
+                'key' => 'tmc_stock',
+                'label' => 'Amount of stock',
+                'name' => 'tmc_stock',
+                'type' => 'number',
+                'required' => 0,
+            ],
+            [
+                'key' => 'tmc_promotional_price',
+                'label' => 'Promotional price',
+                'name' => 'tmc_promotional_price',
+                'type' => 'number',
+                'required' => 0,
+            ],
+            [
+                'key' => 'tmc_display_promo',
+                'label' => 'Display promo',
+                'name' => 'tmc_display_promo',
+                'type' => 'true_false',
+                'required' => 0,
+            ],
+            [
+                'key' => 'tmc_sales_start_date',
+                'label' => 'Sales start date',
+                'name' => 'tmc_sales_start_date',
+                'type' => 'date_time_picker',
+                'required' => 0,
+            ],
+            [
+                'key' => 'tmc_sales_end_date',
+                'label' => 'Sales end date',
+                'name' => 'tmc_sales_end_date',
+                'type' => 'date_time_picker',
+                'required' => 0,
+            ],
+            [
+                'key' => 'tmc_display_date',
+                'label' => 'Display date',
+                'name' => 'tmc_display_date',
+                'type' => 'true_false',
+                'required' => 0,
+            ],
         ];
     }
 }
