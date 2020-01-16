@@ -1,10 +1,10 @@
 
 <div class="margin:10px 10px;">
-    <input type="hidden" name="tmc_box_nonce" value="<?php echo wp_create_nonce( basename(__FILE__))?>">
+    <?php wp_nonce_field('tmc_custom_box', 'tmc_custom_box_nonce'); ?>
 
     <div data-name="price" data-type="number" data-key="field_5e201f02223c5" data-required="1">
         <div class="acf-label">
-            <label for="acf-field_5e201f02223c5">Price <span class="acf-required">*</span></label></div>
+            <label for="acf-field_5e201f02223c5">Price</label></div>
         <div class="acf-input">
             <div class="acf-input-wrap">
                 <input type="number" id="acf-field_5e201f02223c5" name="acf[field_5e201f02223c5]" step="any" required="required">
