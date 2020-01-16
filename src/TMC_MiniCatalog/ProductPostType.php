@@ -1,6 +1,12 @@
 <?php
 /**
  * This class will be out custom post typ
+ *
+ * NOTE: This Class implements the Singleton Pattern, as we will need:
+ *      1) to ensure onluy one instance of the object exist in memory
+ *      2) as we will often need to use action & filters, better to use singleton VS Static methods
+ *
+ * ref: https://7php.com/how-to-code-a-singleton-design-pattern-in-php-5/
  */
 
 namespace TMC_MiniCatalog;
@@ -9,8 +15,33 @@ namespace TMC_MiniCatalog;
 class ProductPostType
 {
     public $text_domain;
+    private static $_instance = null; //for singleton
 
-    public function __construct()
+    /**
+     * Prevent any copy of this object
+     */
+    private function __clone() { }
+
+    /**
+     * single globally accessible static method
+     *
+     * @return ProductPostType|null
+     * @throws \Exception
+     */
+    public static function getInstance()
+    {
+        if(! is_object(self::$_instance)) { //or if( is_null(self::$_instance) ) or if( self::$_instance == null )
+            self::$_instance = new ProductPostType();
+        }
+        return self::$_instance;
+    }
+
+    /**
+     * Prevent any oustide instantiation of this class
+     * ProductPostType constructor.
+     * @throws \Exception
+     */
+    private function __construct()
     {
         if (! defined("TMC_TEXT_DOMAIN")) {
             throw new \Exception('Check why TMC_TEXT_DOMAIN is not defined');
@@ -21,6 +52,11 @@ class ProductPostType
     public function register()
     {
         register_post_type(PostTypeEnum::CUSTOM_POST_TYPE, $this->argsProvider());
+    }
+
+    public function addCustomPostToPostQuery()
+    {
+
     }
 
     private function argsProvider()
