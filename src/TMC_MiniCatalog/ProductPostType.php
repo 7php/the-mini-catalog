@@ -48,7 +48,7 @@ class ProductPostType
         }
         $this->text_domain = TMC_TEXT_DOMAIN;
 
-        add_action('add_meta_boxes', [self::getInstance(), 'add_meta_box']);
+        add_action('add_meta_boxes', [$this, 'add_meta_box']);
 //        add_action( 'save_post',      array( $this, 'save'         ) );
     }
 
@@ -67,7 +67,7 @@ class ProductPostType
             add_meta_box(
                 $meta_box_id,
                 $meta_box_title,
-                [self::getInstance(), 'custom_box_html'],
+                [$this, 'custom_box_html'],
                 \TMC_MiniCatalog\PostTypeEnum::CUSTOM_POST_TYPE,
                 'advanced',
                 'high'
@@ -93,7 +93,7 @@ class ProductPostType
     public function register()
     {
         register_post_type(PostTypeEnum::CUSTOM_POST_TYPE, $this->argsProvider());
-        add_action('pre_get_posts', [self::getInstance(), 'addCustomPostToPostQuery']);
+        add_action('pre_get_posts', [$this, 'addCustomPostToPostQuery']);
     }
 
     /**
