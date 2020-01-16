@@ -81,12 +81,19 @@ class ProductPostType
         $field_list = $this->fieldsProvider();
         foreach ($field_list as $field) {
             if (isset($_POST[$field['name']])) {
-                $mydata = sanitize_text_field($_POST[$field['name']]);
-                update_post_meta($post_id, $field['name'], $mydata );
+                update_post_meta(
+                    $post_id,
+                    $field['name'],
+                    sanitize_text_field($_POST[$field['name']])
+                );
             }
         }
     }
 
+    /**
+     * Before Saving/updating data, we make sure nonce is OK
+     * @return bool
+     */
     private function verifyNonce()
     {
         if (! isset($_POST['tmc_custom_box_nonce'])) {
@@ -117,7 +124,7 @@ class ProductPostType
             add_meta_box(
                 $meta_box_id,
                 $meta_box_title,
-                [$this, 'custom_box_html'],
+                [$this, 'tmc_handle_html_meta_box'],
                 \TMC_MiniCatalog\PostTypeEnum::CUSTOM_POST_TYPE,
                 'advanced',
                 'high'
@@ -129,7 +136,7 @@ class ProductPostType
      * The HTML template for all the custom fields
      * @param $post
      */
-    public function custom_box_html($post)
+    public function tmc_handle_html_meta_box($post)
     {
         global $post;
         //$value = get_post_meta( $post->ID, $fieldArray['args']['key'], true );
@@ -169,7 +176,7 @@ class ProductPostType
     private function argsProvider()
     {
         return [
-            "label"                 => __( PostTypeEnum::CUSTOM_SINGULAR_LABEL, $this->text_domain),
+            "label"                 => __(PostTypeEnum::CUSTOM_SINGULAR_LABEL, $this->text_domain),
             "labels"                => $this->labelsProvider(),
             "description"           => PostTypeEnum::POST_TYPE_DESCRIPTION,
             "public"                => PostTypeEnum::IS_PUBLIC,
@@ -190,12 +197,12 @@ class ProductPostType
                                             "with_front" => PostTypeEnum::WITH_FRONT
                                         ],
             "query_var"             => PostTypeEnum::QUERY_VAR,
-            "supports"              => [    "title", 
+            "supports"              => [    "title",
                                             "editor",
-                                            "thumbnail" 
+                                            "thumbnail"
                                         ],
-            "menu_icon"             => __( PostTypeEnum::MENU_ICON, $this->text_domain),
-            "menu_position"         => __( PostTypeEnum::MENU_POSITION, $this->text_domain),
+            "menu_icon"             => __(PostTypeEnum::MENU_ICON, $this->text_domain),
+            "menu_position"         => __(PostTypeEnum::MENU_POSITION, $this->text_domain),
         ];
     }
 
@@ -206,38 +213,38 @@ class ProductPostType
     private function labelsProvider()
     {
         return [
-            "name"                      => __( PostTypeEnum::CUSTOM_PLURAL_LABEL, $this->text_domain),
-            "singular_name"             => __( PostTypeEnum::CUSTOM_SINGULAR_LABEL, $this->text_domain),
-            "menu_name"                 => __( PostTypeEnum::MENU_NAME, $this->text_domain),
-            "all_items"                 => __( PostTypeEnum::ALL_ITEMS, $this->text_domain),
-            "add_new"                   => __( PostTypeEnum::ADD_NEW, $this->text_domain),
-            "add_new_item"              => __( PostTypeEnum::ADD_NEW_ITEM, $this->text_domain),
-            "edit_item"                 => __( PostTypeEnum::EDIT_NEW_ITEM, $this->text_domain),
-            "new_item"                  => __( PostTypeEnum::NEW_ITEM, $this->text_domain),
-            "view_item"                 => __( PostTypeEnum::VIEW_ITEM, $this->text_domain),
-            "view_items"                => __( PostTypeEnum::VIEW_ITEMS, $this->text_domain),
-            "search_items"              => __( PostTypeEnum::SEARCH_ITEM, $this->text_domain),
-            "not_found"                 => __( PostTypeEnum::NOT_FOUND, $this->text_domain),
-            "not_found_in_trash"        => __( "No Products found in trash", $this->text_domain),
-            "parent"                    => __( PostTypeEnum::PARENT, $this->text_domain),
-            "featured_image"            => __( PostTypeEnum::FEATURED_IMAGE, $this->text_domain),
-            "set_featured_image"        => __( PostTypeEnum::SET_FEATURED_IMAGE, $this->text_domain),
-            "remove_featured_image"     => __( PostTypeEnum::REMOVE_FEATURED_IMAGE, $this->text_domain),
-            "use_featured_image"        => __( PostTypeEnum::USE_FEATURED_IMAGE, $this->text_domain),
-            "archives"                  => __( PostTypeEnum::ARCHIVES, $this->text_domain),
-            "insert_into_item"          => __( PostTypeEnum::INSERT_INTO_ITEM, $this->text_domain),
-            "uploaded_to_this_item"     => __( PostTypeEnum::UPLOADED_TO_THIS_ITEM, $this->text_domain),
-            "filter_items_list"         => __( PostTypeEnum::FILTER_ITEM_LIST, $this->text_domain),
-            "items_list_navigation"     => __( PostTypeEnum::ITEMS_LIST_NAVIGATION, $this->text_domain),
-            "items_list"                => __( PostTypeEnum::ITEMS_LIST, $this->text_domain),
-            "attributes"                => __( PostTypeEnum::ATTRIBUTES, $this->text_domain),
-            "name_admin_bar"            => __( PostTypeEnum::NEW_MENU_IN_ADMIN_BAR, $this->text_domain),
-            "item_published"            => __( PostTypeEnum::ITEM_PUBLISHED, $this->text_domain),
-            "item_published_privately"  => __( PostTypeEnum::ITEM_PUBLISHED_PRIVATELY, $this->text_domain),
-            "item_reverted_to_draft"    => __( PostTypeEnum::ITEM_REVERTED_TO_DRAFT, $this->text_domain),
-            "item_scheduled"            => __( PostTypeEnum::ITEM_SCHEDULED, $this->text_domain),
-            "item_updated"              => __( PostTypeEnum::ITEM_UPDATED, $this->text_domain),
-            "parent_item_colon"         => __( PostTypeEnum::PARENT, $this->text_domain),
+            "name"                      => __(PostTypeEnum::CUSTOM_PLURAL_LABEL, $this->text_domain),
+            "singular_name"             => __(PostTypeEnum::CUSTOM_SINGULAR_LABEL, $this->text_domain),
+            "menu_name"                 => __(PostTypeEnum::MENU_NAME, $this->text_domain),
+            "all_items"                 => __(PostTypeEnum::ALL_ITEMS, $this->text_domain),
+            "add_new"                   => __(PostTypeEnum::ADD_NEW, $this->text_domain),
+            "add_new_item"              => __(PostTypeEnum::ADD_NEW_ITEM, $this->text_domain),
+            "edit_item"                 => __(PostTypeEnum::EDIT_NEW_ITEM, $this->text_domain),
+            "new_item"                  => __(PostTypeEnum::NEW_ITEM, $this->text_domain),
+            "view_item"                 => __(PostTypeEnum::VIEW_ITEM, $this->text_domain),
+            "view_items"                => __(PostTypeEnum::VIEW_ITEMS, $this->text_domain),
+            "search_items"              => __(PostTypeEnum::SEARCH_ITEM, $this->text_domain),
+            "not_found"                 => __(PostTypeEnum::NOT_FOUND, $this->text_domain),
+            "not_found_in_trash"        => __("No Products found in trash", $this->text_domain),
+            "parent"                    => __(PostTypeEnum::PARENT, $this->text_domain),
+            "featured_image"            => __(PostTypeEnum::FEATURED_IMAGE, $this->text_domain),
+            "set_featured_image"        => __(PostTypeEnum::SET_FEATURED_IMAGE, $this->text_domain),
+            "remove_featured_image"     => __(PostTypeEnum::REMOVE_FEATURED_IMAGE, $this->text_domain),
+            "use_featured_image"        => __(PostTypeEnum::USE_FEATURED_IMAGE, $this->text_domain),
+            "archives"                  => __(PostTypeEnum::ARCHIVES, $this->text_domain),
+            "insert_into_item"          => __(PostTypeEnum::INSERT_INTO_ITEM, $this->text_domain),
+            "uploaded_to_this_item"     => __(PostTypeEnum::UPLOADED_TO_THIS_ITEM, $this->text_domain),
+            "filter_items_list"         => __(PostTypeEnum::FILTER_ITEM_LIST, $this->text_domain),
+            "items_list_navigation"     => __(PostTypeEnum::ITEMS_LIST_NAVIGATION, $this->text_domain),
+            "items_list"                => __(PostTypeEnum::ITEMS_LIST, $this->text_domain),
+            "attributes"                => __(PostTypeEnum::ATTRIBUTES, $this->text_domain),
+            "name_admin_bar"            => __(PostTypeEnum::NEW_MENU_IN_ADMIN_BAR, $this->text_domain),
+            "item_published"            => __(PostTypeEnum::ITEM_PUBLISHED, $this->text_domain),
+            "item_published_privately"  => __(PostTypeEnum::ITEM_PUBLISHED_PRIVATELY, $this->text_domain),
+            "item_reverted_to_draft"    => __(PostTypeEnum::ITEM_REVERTED_TO_DRAFT, $this->text_domain),
+            "item_scheduled"            => __(PostTypeEnum::ITEM_SCHEDULED, $this->text_domain),
+            "item_updated"              => __(PostTypeEnum::ITEM_UPDATED, $this->text_domain),
+            "parent_item_colon"         => __(PostTypeEnum::PARENT, $this->text_domain),
         ];
     }
 
@@ -249,74 +256,74 @@ class ProductPostType
     {
         return [
             [
-                'key' => 'tmc_price',
-                'label' => 'Price',
-                'name' => 'tmc_price',
-                'type' => 'number',
-                'required' => 0,
+                'key'       => 'tmc_price',
+                'label'     => 'Price',
+                'name'      => 'tmc_price',
+                'type'      => 'number',
+                'required'  => 0,
             ],
             [
-                'key' => 'tmc_display_price',
-                'label' => 'Display price',
-                'name' => 'tmc_display_price',
-                'type' => 'true_false',
-                'required' => 0,
+                'key'       => 'tmc_display_price',
+                'label'     => 'Display price',
+                'name'      => 'tmc_display_price',
+                'type'      => 'true_false',
+                'required'  => 0,
             ],
             [
-                'key' => 'tmc_quantity',
-                'label' => 'Quantity',
-                'name' => 'tmc_quantity',
-                'type' => 'number',
-                'required' => 0,
+                'key'       => 'tmc_quantity',
+                'label'     => 'Quantity',
+                'name'      => 'tmc_quantity',
+                'type'      => 'number',
+                'required'  => 0,
             ],
             [
-                'key' => 'tmc_display_quantity',
-                'label' => 'Display Quantity',
-                'name' => 'tmc_display_quantity',
-                'type' => 'true_false',
-                'required' => 0,
+                'key'       => 'tmc_display_quantity',
+                'label'     => 'Display Quantity',
+                'name'      => 'tmc_display_quantity',
+                'type'      => 'true_false',
+                'required'  => 0,
             ],
             [
-                'key' => 'tmc_stock',
-                'label' => 'Amount of stock',
-                'name' => 'tmc_stock',
-                'type' => 'number',
-                'required' => 0,
+                'key'       => 'tmc_stock',
+                'label'     => 'Amount of stock',
+                'name'      => 'tmc_stock',
+                'type'      => 'number',
+                'required'  => 0,
             ],
             [
-                'key' => 'tmc_promotional_price',
-                'label' => 'Promotional price',
-                'name' => 'tmc_promotional_price',
-                'type' => 'number',
-                'required' => 0,
+                'key'       => 'tmc_promotional_price',
+                'label'     => 'Promotional price',
+                'name'      => 'tmc_promotional_price',
+                'type'      => 'number',
+                'required'  => 0,
             ],
             [
-                'key' => 'tmc_display_promo',
-                'label' => 'Display promo',
-                'name' => 'tmc_display_promo',
-                'type' => 'true_false',
-                'required' => 0,
+                'key'       => 'tmc_display_promo',
+                'label'     => 'Display promo',
+                'name'      => 'tmc_display_promo',
+                'type'      => 'true_false',
+                'required'  => 0,
             ],
             [
-                'key' => 'tmc_sales_start_date',
-                'label' => 'Sales start date',
-                'name' => 'tmc_sales_start_date',
-                'type' => 'date_time_picker',
-                'required' => 0,
+                'key'       => 'tmc_sales_start_date',
+                'label'     => 'Sales start date',
+                'name'      => 'tmc_sales_start_date',
+                'type'      => 'date_time_picker',
+                'required'  => 0,
             ],
             [
-                'key' => 'tmc_sales_end_date',
-                'label' => 'Sales end date',
-                'name' => 'tmc_sales_end_date',
-                'type' => 'date_time_picker',
-                'required' => 0,
+                'key'       => 'tmc_sales_end_date',
+                'label'     => 'Sales end date',
+                'name'      => 'tmc_sales_end_date',
+                'type'      => 'date_time_picker',
+                'required'  => 0,
             ],
             [
-                'key' => 'tmc_display_date',
-                'label' => 'Display date',
-                'name' => 'tmc_display_date',
-                'type' => 'true_false',
-                'required' => 0,
+                'key'       => 'tmc_display_date',
+                'label'     => 'Display date',
+                'name'      => 'tmc_display_date',
+                'type'      => 'true_false',
+                'required'  => 0,
             ],
         ];
     }

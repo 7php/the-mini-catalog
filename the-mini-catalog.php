@@ -23,14 +23,14 @@ if ( ! defined( 'WPINC')) {
     die;
 }
 define( 'PLUGIN_NAME_VERSION', '1.0.0' );
-define( 'TMC_TEXT_DOMAIN',      'the-mini-catalog' );
+define( 'TMC_TEXT_DOMAIN',     'the-mini-catalog' );
 if (! defined('DS')) {
     define('DS', DIRECTORY_SEPARATOR); //[NOTE: do not confuse with PATH_SEPARATOR == : ]
 }
 define('TMC_PLUGIN_ROOT',   plugin_dir_path( __FILE__ ) ); //with trailing slash at end
-define('TMC_SRC',           plugin_dir_path( __FILE__ ) . 'src' . DS); //with trailing slash at end
-define('TMC_VENDOR',        plugin_dir_path( __FILE__ ) . 'vendor' . DS); //with trailing slash at end
-define('TMC_ADMIN_TPL',     plugin_dir_path( __FILE__ ) . 'admin/views' . DS); //with trailing slash at end
+define('TMC_SRC',           plugin_dir_path( __FILE__ ) . 'src' . DS);
+define('TMC_VENDOR',        plugin_dir_path( __FILE__ ) . 'vendor' . DS);
+define('TMC_ADMIN_TPL',     plugin_dir_path( __FILE__ ) . 'admin/views' . DS);
 
 /**
  * Let's make a ruckus
