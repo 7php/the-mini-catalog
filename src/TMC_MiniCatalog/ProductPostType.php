@@ -81,11 +81,7 @@ class ProductPostType
         $field_list = $this->fieldsProvider();
         foreach ($field_list as $field) {
             if (isset($_POST[$field['name']])) {
-                update_post_meta(
-                    $post_id,
-                    $field['name'],
-                    sanitize_text_field($_POST[$field['name']])
-                );
+                update_post_meta( $post_id, $field['name'], sanitize_text_field($_POST[$field['name']]));
             }
         }
     }
