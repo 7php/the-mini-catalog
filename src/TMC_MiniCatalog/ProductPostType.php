@@ -49,9 +49,59 @@ class ProductPostType
         $this->text_domain = TMC_TEXT_DOMAIN;
 
         add_action('add_meta_boxes', [$this, 'add_meta_box']);
-//        add_action( 'save_post',      array( $this, 'save'         ) );
+        add_action('save_post',      [$this, 'save']);
     }
 
+    /**
+     * To save all custom fields in postmeta
+     * @param $post_id
+     * @return mixed
+     */
+    public function save($post_id)
+    {
+        //bail early if nonce fails
+        if ($this->verifyNonce() !== true) {
+            return $post_id;
+        }
+
+        //autosave - should not save anything
+        if (defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE) {
+            return $post_id;
+        }
+
+        //Check user permission
+        if ( PostTypeEnum::CUSTOM_POST_TYPE == $_POST['post_type']) {
+            if (! current_user_can('edit_page', $post_id)) {
+                return $post_id;
+            }
+        } else if (! current_user_can('edit_post', $post_id)) {
+                return $post_id;
+        }
+
+        $field_list = $this->fieldsProvider();
+        foreach ($field_list as $field) {
+            if (isset($_POST[$field['name']])) {
+                $mydata = sanitize_text_field($_POST[$field['name']]);
+                update_post_meta($post_id, $field['name'], $mydata );
+            }
+        }
+    }
+
+    private function verifyNonce()
+    {
+        if (! isset($_POST['tmc_custom_box_nonce'])) {
+            return false;
+        }
+        if (! wp_verify_nonce(trim($_POST['tmc_custom_box_nonce']), 'tmc_custom_box_nonce') ) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * To add all the custom fields of TMC Product in Admin dashboard
+     * @param $post_type
+     */
     public function add_meta_box($post_type)
     {
         // Limit meta box to certain post types.
@@ -75,6 +125,10 @@ class ProductPostType
         }
     }
 
+    /**
+     * The HTML template for all the custom fields
+     * @param $post
+     */
     public function custom_box_html($post)
     {
         global $post;
@@ -199,7 +253,7 @@ class ProductPostType
                 'label' => 'Price',
                 'name' => 'tmc_price',
                 'type' => 'number',
-                'required' => 1,
+                'required' => 0,
             ],
             [
                 'key' => 'tmc_display_price',
