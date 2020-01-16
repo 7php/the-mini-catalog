@@ -68,13 +68,16 @@ function tmc_initAutoloading($plugin_dir)
  *
  * @throws Exception
  */
-function initOurCustomPostType()
+function initCustomPostType()
 {
-    $productObject = new \TMC_MiniCatalog\ProductPostType();
+    $productObject = \TMC_MiniCatalog\ProductPostType::getInstance();
     $productObject->register();
 }
 
+/**
+ * Now let's go make a ruckus
+ */
 tmc_initAutoloading(TMC_PLUGIN_ROOT);
 register_activation_hook(__FILE__, 'activate_the_mini_catalog_tmc');
 register_deactivation_hook(__FILE__, 'deactivate_the_mini_catalog_tmc');
-add_action('init', 'initOurCustomPostType');
+add_action('init', 'initCustomPostType');

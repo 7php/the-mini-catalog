@@ -17,7 +17,7 @@ class ActivatePlugin
          * order of execution matters
          * ref: https://developer.wordpress.org/reference/functions/register_post_type/#flushing-rewrite-on-activation
          */
-        initOurCustomPostType();
+        initCustomPostType();
         flush_rewrite_rules();
     }
 }
