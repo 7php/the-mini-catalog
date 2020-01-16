@@ -99,7 +99,7 @@ class ProductPostType
         if (! isset($_POST['tmc_custom_box_nonce'])) {
             return false;
         }
-        if (! wp_verify_nonce(trim($_POST['tmc_custom_box_nonce']), 'tmc_custom_box_nonce') ) {
+        if (! wp_verify_nonce($_POST['tmc_custom_box_nonce'], 'tmc_custom_box_action')) {
             return false;
         }
         return true;
@@ -139,9 +139,16 @@ class ProductPostType
     public function tmc_handle_html_meta_box($post)
     {
         global $post;
-        //$value = get_post_meta( $post->ID, $fieldArray['args']['key'], true );
 
-        $tpl = tplObject();
+        $tpl             = tplObject();
+        $field_list      = $this->fieldsProvider();
+        foreach ($field_list as &$field) {
+            $value = get_post_meta($post->ID, $field['key'], true );
+            $field = array_merge($field, ['value' => $value]);
+        }
+        $tpl->field_list = &$field_list;
+
+        //display tpl
         $tpl->setTemplate('custom_fields.tpl.php');
         $tpl->display();
     }
@@ -255,76 +262,76 @@ class ProductPostType
     public function fieldsProvider()
     {
         return [
-            [
-                'key'       => 'tmc_price',
-                'label'     => 'Price',
-                'name'      => 'tmc_price',
-                'type'      => 'number',
-                'required'  => 0,
-            ],
-            [
-                'key'       => 'tmc_display_price',
-                'label'     => 'Display price',
-                'name'      => 'tmc_display_price',
-                'type'      => 'true_false',
-                'required'  => 0,
-            ],
-            [
-                'key'       => 'tmc_quantity',
-                'label'     => 'Quantity',
-                'name'      => 'tmc_quantity',
-                'type'      => 'number',
-                'required'  => 0,
-            ],
-            [
-                'key'       => 'tmc_display_quantity',
-                'label'     => 'Display Quantity',
-                'name'      => 'tmc_display_quantity',
-                'type'      => 'true_false',
-                'required'  => 0,
-            ],
-            [
-                'key'       => 'tmc_stock',
-                'label'     => 'Amount of stock',
-                'name'      => 'tmc_stock',
-                'type'      => 'number',
-                'required'  => 0,
-            ],
-            [
-                'key'       => 'tmc_promotional_price',
-                'label'     => 'Promotional price',
-                'name'      => 'tmc_promotional_price',
-                'type'      => 'number',
-                'required'  => 0,
-            ],
-            [
-                'key'       => 'tmc_display_promo',
-                'label'     => 'Display promo',
-                'name'      => 'tmc_display_promo',
-                'type'      => 'true_false',
-                'required'  => 0,
-            ],
-            [
-                'key'       => 'tmc_sales_start_date',
-                'label'     => 'Sales start date',
-                'name'      => 'tmc_sales_start_date',
-                'type'      => 'date_time_picker',
-                'required'  => 0,
-            ],
-            [
-                'key'       => 'tmc_sales_end_date',
-                'label'     => 'Sales end date',
-                'name'      => 'tmc_sales_end_date',
-                'type'      => 'date_time_picker',
-                'required'  => 0,
-            ],
-            [
-                'key'       => 'tmc_display_date',
-                'label'     => 'Display date',
-                'name'      => 'tmc_display_date',
-                'type'      => 'true_false',
-                'required'  => 0,
-            ],
+            "tmc_price"             => [
+                                    'key'       => 'tmc_price',
+                                    'label'     => 'Price',
+                                    'name'      => 'tmc_price',
+                                    'type'      => 'number',
+                                    'required'  => 0,
+                                ],
+            "tmc_display_price"     => [
+                                    'key'       => 'tmc_display_price',
+                                    'label'     => 'Display price',
+                                    'name'      => 'tmc_display_price',
+                                    'type'      => 'true_false',
+                                    'required'  => 0,
+                                ],
+            "tmc_quantity"          => [
+                                    'key'       => 'tmc_quantity',
+                                    'label'     => 'Quantity',
+                                    'name'      => 'tmc_quantity',
+                                    'type'      => 'number',
+                                    'required'  => 0,
+                                ],
+            "tmc_display_quantity"  => [
+                                    'key'       => 'tmc_display_quantity',
+                                    'label'     => 'Display Quantity',
+                                    'name'      => 'tmc_display_quantity',
+                                    'type'      => 'true_false',
+                                    'required'  => 0,
+                                ],
+            "tmc_stock"             => [
+                                    'key'       => 'tmc_stock',
+                                    'label'     => 'Amount of stock',
+                                    'name'      => 'tmc_stock',
+                                    'type'      => 'number',
+                                    'required'  => 0,
+                                ],
+            "tmc_promotional_price" => [
+                                    'key'       => 'tmc_promotional_price',
+                                    'label'     => 'Promotional price',
+                                    'name'      => 'tmc_promotional_price',
+                                    'type'      => 'number',
+                                    'required'  => 0,
+                                ],
+            "tmc_display_promo"     => [
+                                    'key'       => 'tmc_display_promo',
+                                    'label'     => 'Display promo',
+                                    'name'      => 'tmc_display_promo',
+                                    'type'      => 'true_false',
+                                    'required'  => 0,
+                                ],
+            "tmc_sales_start_date"  => [
+                                    'key'       => 'tmc_sales_start_date',
+                                    'label'     => 'Sales start date',
+                                    'name'      => 'tmc_sales_start_date',
+                                    'type'      => 'date_time_picker',
+                                    'required'  => 0,
+                                ],
+            "tmc_sales_end_date"    => [
+                                    'key'       => 'tmc_sales_end_date',
+                                    'label'     => 'Sales end date',
+                                    'name'      => 'tmc_sales_end_date',
+                                    'type'      => 'date_time_picker',
+                                    'required'  => 0,
+                                ],
+            "tmc_display_date"      => [
+                                    'key'       => 'tmc_display_date',
+                                    'label'     => 'Display date',
+                                    'name'      => 'tmc_display_date',
+                                    'type'      => 'true_false',
+                                    'required'  => 0,
+                                ],
         ];
     }
 }
