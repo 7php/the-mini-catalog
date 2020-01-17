@@ -39,6 +39,7 @@ define('TMC_ADMIN_TPL',     plugin_dir_path( __FILE__ ) . 'admin/views' . DS);
 tmc_initAutoloading(TMC_PLUGIN_ROOT);
 register_activation_hook(__FILE__, 'activate_the_mini_catalog_tmc');
 register_deactivation_hook(__FILE__, 'deactivate_the_mini_catalog_tmc');
+add_action('admin_enqueue_scripts', 'tmc_enqueue_admin_script');
 add_action('init', 'initCustomPostType');
 
 /**
@@ -82,7 +83,6 @@ function tmc_initAutoloading($plugin_dir)
  */
 function initCustomPostType()
 {
-    add_action('admin_enqueue_scripts', 'tmc_enqueue_admin_script');
     $productObject = \TMC_MiniCatalog\ProductPostType::getInstance();
     $productObject->register();
 }
@@ -94,13 +94,16 @@ function initCustomPostType()
  */
 function tmc_enqueue_admin_script($hook)
 {
-    if ('post.php' == $hook) {
+    if (in_array($hook, ['post-new.php', 'post.php'])) {
         //css
-        wp_enqueue_style('tmc-datepicker-css', TMC_WEB_ROOT . 'admin/assets/css/datepicker.css');
-        wp_enqueue_style('tmc-timepicker-css', TMC_WEB_ROOT . 'admin/assets/css/timepicker.css');
+        wp_enqueue_style('tmc-bootstrap-css', '//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css');
+        wp_enqueue_style('tmc-bootstrap-css', '//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css');
+        wp_enqueue_style('tmc-datepicker-css', TMC_WEB_ROOT . 'admin/assets/css/bootstrap-datetimepicker.css');
+
         //js in footer
-        wp_enqueue_script( 'tmc-datepicker-script', TMC_WEB_ROOT . 'admin/assets/js/datepicker.min.js', ['jquery'], false, true );
-        wp_enqueue_script( 'tmc-timepicker-script', TMC_WEB_ROOT . 'admin/assets/js/jquery-ui-timepicker-addon.min.js', ['jquery', 'tmc-datepicker-script'], false, true );
+        wp_enqueue_script( 'tmc-bootstrap-script', '//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js', ['jquery'], false, true );
+        wp_enqueue_script( 'tmc-moments-script', '//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js', ['jquery'], false, true );
+        wp_enqueue_script( 'tmc-datepicker-script', TMC_WEB_ROOT . 'admin/assets/js/bootstrap-datetimepicker.js', ['jquery'], false, true );
     }
 }
 
