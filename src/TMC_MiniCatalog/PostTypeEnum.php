@@ -11,6 +11,11 @@ namespace TMC_MiniCatalog;
  */
 class PostTypeEnum
 {
+    //Permalinks
+    const CUSTOM_TEXT_DOMAIN    = "the-mini-catalog";
+    const TMC_PERMALINKS_KEY    = "tmc_permalinks";
+    const TMC_REWRITE_SLUG      = "product_rewrite_slug";
+
     //Basic Settings
     const CUSTOM_POST_TYPE      = "tmc_product"; //to prevent collision
     const CUSTOM_PLURAL_LABEL   = "TMC Products"; //to prevent collision
