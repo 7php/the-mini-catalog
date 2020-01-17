@@ -15,6 +15,7 @@ namespace TMC_MiniCatalog;
 class ProductPostType
 {
     public $text_domain;
+    public $permalink_from_db;
     private static $_instance = null; //for singleton
 
     /**
@@ -46,7 +47,8 @@ class ProductPostType
         if (! defined("TMC_TEXT_DOMAIN")) {
             throw new \Exception('Check why TMC_TEXT_DOMAIN is not defined');
         }
-        $this->text_domain = TMC_TEXT_DOMAIN;
+        $this->text_domain       = TMC_TEXT_DOMAIN;
+        $this->permalink_from_db = get_option(PostTypeEnum::TMC_PERMALINKS_KEY, ['product_base' => PostTypeEnum::REWRITE_SLUG])['product_base'];
 
         add_action('add_meta_boxes', [$this, 'add_meta_box']);
         add_action('save_post',      [$this, 'save']);
@@ -194,7 +196,7 @@ class ProductPostType
             "capability_type"       => PostTypeEnum::CAPABILITY_TYPE,
             "map_meta_cap"          => true,
             "hierarchical"          => PostTypeEnum::HIERARCHICAL,
-            "rewrite"               => [    "slug" => PostTypeEnum::REWRITE_SLUG,
+            "rewrite"               => [    "slug"       => $this->permalink_from_db,//PostTypeEnum::REWRITE_SLUG,
                                             "with_front" => PostTypeEnum::WITH_FRONT
                                         ],
             "query_var"             => PostTypeEnum::QUERY_VAR,
