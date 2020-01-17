@@ -155,9 +155,9 @@ class ProductPostType
      */
     public function register()
     {
-        //TODO: Make REWRITE_SLUG dynamic and merge this key within argsProvider
         register_post_type(PostTypeEnum::CUSTOM_POST_TYPE, $this->argsProvider());
-        add_action('pre_get_posts', [$this, 'addCustomPostToPostQuery']);
+        //NOTE: don't do the below, else we cannot override tmc_product tpl only on single
+//        add_action('pre_get_posts', [$this, 'addCustomPostToPostQuery']);
     }
 
     /**
