@@ -114,14 +114,13 @@ class ProductPostType
         ];
 
         if (in_array($post_type, $post_types)) {
-            $custom_fields_list = $this->fieldsProvider();
             $meta_box_title     = "TMC Product Custom Fields List";
             $meta_box_id        = "tmc_custom_fields_group";
             add_meta_box(
                 $meta_box_id,
                 $meta_box_title,
                 [$this, 'tmc_handle_html_meta_box'],
-                \TMC_MiniCatalog\PostTypeEnum::CUSTOM_POST_TYPE,
+                PostTypeEnum::CUSTOM_POST_TYPE,
                 'advanced',
                 'high'
             );
@@ -156,6 +155,7 @@ class ProductPostType
      */
     public function register()
     {
+        //TODO: Make REWRITE_SLUG dynamic and merge this key within argsProvider
         register_post_type(PostTypeEnum::CUSTOM_POST_TYPE, $this->argsProvider());
         add_action('pre_get_posts', [$this, 'addCustomPostToPostQuery']);
     }
