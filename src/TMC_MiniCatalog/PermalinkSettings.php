@@ -95,12 +95,13 @@ class PermalinkSettings
     }
 
     /**
+     * Fetch permalink for our custom post type
      * @return array
      */
     public function tmc_get_permalink_structure()
     {
         $permalinks_from_db = (array) get_option(PostTypeEnum::TMC_PERMALINKS_KEY, []);
-        $permalinks         = wp_parse_args( array_filter($permalinks_from_db), [ 'product_base' => 'product'] );
+        $permalinks         = wp_parse_args( array_filter($permalinks_from_db), ['product_base' => PostTypeEnum::REWRITE_SLUG]);
 
         if ($permalinks_from_db !== $permalinks) {
             update_option(PostTypeEnum::TMC_PERMALINKS_KEY, $permalinks);
