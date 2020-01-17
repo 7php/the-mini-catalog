@@ -17,5 +17,7 @@ class DeActivatePlugin
 {
     public function __construct()
     {
+        delete_option(PostTypeEnum::TMC_PERMALINKS_KEY);
+        flush_rewrite_rules();
     }
 }
