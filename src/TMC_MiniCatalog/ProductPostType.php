@@ -143,9 +143,7 @@ class ProductPostType
         }
         $tpl->field_list = &$field_list;
 
-        //display tpl
-        $tpl->setTemplate('custom_fields.tpl.php');
-        $tpl->display();
+        $tpl->display('custom_fields.tpl.php');
     }
 
     /**
