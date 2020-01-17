@@ -27,6 +27,7 @@ define( 'TMC_TEXT_DOMAIN',     'the-mini-catalog' );
 if (! defined('DS')) {
     define('DS', DIRECTORY_SEPARATOR); //[NOTE: do not confuse with PATH_SEPARATOR == : ]
 }
+define('TMC_WEB_ROOT',      plugin_dir_url(__FILE__));
 define('TMC_PLUGIN_ROOT',   plugin_dir_path( __FILE__ ) ); //with trailing slash at end
 define('TMC_SRC',           plugin_dir_path( __FILE__ ) . 'src' . DS);
 define('TMC_VENDOR',        plugin_dir_path( __FILE__ ) . 'vendor' . DS);
@@ -81,8 +82,26 @@ function tmc_initAutoloading($plugin_dir)
  */
 function initCustomPostType()
 {
+    add_action('admin_enqueue_scripts', 'tmc_enqueue_admin_script');
     $productObject = \TMC_MiniCatalog\ProductPostType::getInstance();
     $productObject->register();
+}
+
+/**
+ * Enqueue a script in the WordPress admin, just for post.php
+ *
+ * @param int $hook Hook suffix for the current admin page.
+ */
+function tmc_enqueue_admin_script($hook)
+{
+    if ('post.php' == $hook) {
+        //css
+        wp_enqueue_style('tmc-datepicker-css', TMC_WEB_ROOT . 'admin/assets/css/datepicker.css');
+        wp_enqueue_style('tmc-timepicker-css', TMC_WEB_ROOT . 'admin/assets/css/timepicker.css');
+        //js in footer
+        wp_enqueue_script( 'tmc-datepicker-script', TMC_WEB_ROOT . 'admin/assets/js/datepicker.min.js', ['jquery'], false, true );
+        wp_enqueue_script( 'tmc-timepicker-script', TMC_WEB_ROOT . 'admin/assets/js/jquery-ui-timepicker-addon.min.js', ['jquery', 'tmc-datepicker-script'], false, true );
+    }
 }
 
 /**

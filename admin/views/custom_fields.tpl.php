@@ -74,8 +74,8 @@
         <div class="label">
             <label for="<?php echo esc_attr($this->field_list['tmc_sales_start_date']['name']) ?>" style="font-weight: bold; font-size: large; padding:20px 5px 5px 5px; color: #0A246A;"><?php echo esc_attr($this->field_list['tmc_sales_start_date']['label']) ?>:</label></div>
         <div class="input">
-            <div class="date-time-picker input-wrap" data-date_format="dd/mm/yy" data-time_format="h:mm tt" data-first_day="1">
-                <input type="text" class="input hasDatepicker" value="<?php echo esc_attr($this->field_list['tmc_sales_start_date']['value']) ?>" id="<?php echo esc_attr($this->field_list['tmc_sales_start_date']['name']) ?>" name="<?php echo esc_attr($this->field_list['tmc_sales_start_date']['name']) ?>">
+            <div class="acf-date-time-picker input-wrap" data-date_format="dd/mm/yy" data-time_format="h:mm tt" data-first_day="1">
+                <input type="text" class="input hasDatepicker" value="<?php echo esc_attr($this->field_list['tmc_sales_start_date']['value']) ?>" id="acf-<?php echo esc_attr($this->field_list['tmc_sales_start_date']['name']) ?>" name="<?php echo esc_attr($this->field_list['tmc_sales_start_date']['name']) ?>">
             </div>
         </div>
     </div>
@@ -84,7 +84,7 @@
             <label for="<?php echo esc_attr($this->field_list['tmc_sales_end_date']['name']) ?>" style="font-weight: bold; font-size: large; padding:20px 5px 5px 5px; color: #0A246A;"><?php echo esc_attr($this->field_list['tmc_sales_end_date']['label']) ?>:</label></div>
         <div class="input">
             <div class="date-time-picker input-wrap" data-date_format="dd/mm/yy" data-time_format="h:mm tt" data-first_day="1">
-                <input type="text" class="input hasDatepicker" value="<?php echo esc_attr($this->field_list['tmc_sales_end_date']['value']) ?>" id="<?php echo esc_attr($this->field_list['tmc_sales_end_date']['name']) ?>" name="<?php echo esc_attr($this->field_list['tmc_sales_end_date']['name']) ?>">
+                <input type="text" class="datepicker input hasDatepicker" value="<?php echo esc_attr($this->field_list['tmc_sales_end_date']['value']) ?>" id="<?php echo esc_attr($this->field_list['tmc_sales_end_date']['name']) ?>" name="<?php echo esc_attr($this->field_list['tmc_sales_end_date']['name']) ?>">
             </div>
         </div>
     </div>
@@ -100,3 +100,11 @@
         </div>
     </div>
 </div>
+
+
+<script type="text/javascript">
+    jQuery(document).ready(function(jQuery){
+        jQuery.datepicker.setDefaults({"closeText":"Close","currentText":"Today","monthNames":["January","February","March","April","May","June","July","August","September","October","November","December"],"monthNamesShort":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"nextText":"Next","prevText":"Previous","dayNames":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"dayNamesShort":["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],"dayNamesMin":["S","M","T","W","T","F","S"],"dateFormat":"MM d, yy","firstDay":1,"isRTL":false});
+    jQuery('input.datepicker').datepicker();
+    });
+</script>
