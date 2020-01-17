@@ -24,6 +24,7 @@ use SavantPHP\SavantPHP;
 use TMC_MiniCatalog\ActivatePlugin;
 use TMC_MiniCatalog\DeActivatePlugin;
 use TMC_MiniCatalog\PermalinkSettings;
+use TMC_MiniCatalog\PostTypeEnum;
 use TMC_MiniCatalog\ProductPostType;
 
 if ( ! defined( 'WPINC')) {
@@ -49,6 +50,7 @@ register_deactivation_hook(__FILE__, 'deactivate_the_mini_catalog_tmc');
 add_action('admin_init', 'initPermalinks');
 add_action('admin_enqueue_scripts', 'tmc_enqueue_admin_script');
 add_action('init', 'initCustomPostType');
+add_filter('single_template', 'set_custom_template');
 
 /**
  * The code that runs during plugin activation.
@@ -134,4 +136,15 @@ function tplObject()
         SavantPHP::TPL_PATH_LIST => [ TMC_ADMIN_TPL,],
     ];
     return new SavantPHP($configBag);
+}
+
+/**
+ * Set a custom tpl for all tmc_product custom post
+ * @return string
+ */
+function set_custom_template()
+{
+    if (PostTypeEnum::CUSTOM_POST_TYPE == get_post_type()) {
+        return TMC_PLUGIN_ROOT . 'public/views/single-tmc_product.php';
+    }
 }
