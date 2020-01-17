@@ -19,6 +19,13 @@
  *
  * ref: https://developer.wordpress.org/plugins
  */
+
+use SavantPHP\SavantPHP;
+use TMC_MiniCatalog\ActivatePlugin;
+use TMC_MiniCatalog\DeActivatePlugin;
+use TMC_MiniCatalog\PermalinkSettings;
+use TMC_MiniCatalog\ProductPostType;
+
 if ( ! defined( 'WPINC')) {
     die;
 }
@@ -39,6 +46,7 @@ define('TMC_ADMIN_TPL',     plugin_dir_path( __FILE__ ) . 'admin/views' . DS);
 tmc_initAutoloading(TMC_PLUGIN_ROOT);
 register_activation_hook(__FILE__, 'activate_the_mini_catalog_tmc');
 register_deactivation_hook(__FILE__, 'deactivate_the_mini_catalog_tmc');
+add_action('admin_init', 'initPermalinks');
 add_action('admin_enqueue_scripts', 'tmc_enqueue_admin_script');
 add_action('init', 'initCustomPostType');
 
@@ -47,7 +55,7 @@ add_action('init', 'initCustomPostType');
  */
 function activate_the_mini_catalog_tmc()
 {
-    new \TMC_MiniCatalog\ActivatePlugin();
+    new ActivatePlugin();
 }
 
 /**
@@ -56,7 +64,7 @@ function activate_the_mini_catalog_tmc()
  */
 function deactivate_the_mini_catalog_tmc()
 {
-    new \TMC_MiniCatalog\DeActivatePlugin();
+    new DeActivatePlugin();
 }
 
 /**
@@ -83,10 +91,19 @@ function tmc_initAutoloading($plugin_dir)
  */
 function initCustomPostType()
 {
-    $productObject = \TMC_MiniCatalog\ProductPostType::getInstance();
+    $productObject = ProductPostType::getInstance();
     $productObject->register();
 }
 
+/**
+ * Handles custom permalink structure in Permalink Settings for dynamic slug
+ * We need to call this before we initCustomFields as we want the slug to be dynamic, so we fetch from DB first
+ */
+function initPermalinks()
+{
+    $permalinkObject = PermalinkSettings::getInstance();
+    $permalinkObject->initPermalinks();
+}
 /**
  * Enqueue a script in the WordPress admin, just for post.php
  *
@@ -109,12 +126,12 @@ function tmc_enqueue_admin_script($hook)
 
 /**
  * prepare the Savant tpl object
- * @return \SavantPHP\SavantPHP
+ * @return SavantPHP
  */
 function tplObject()
 {
     $configBag = [
-        \SavantPHP\SavantPHP::TPL_PATH_LIST => [ TMC_ADMIN_TPL,],
+        SavantPHP::TPL_PATH_LIST => [ TMC_ADMIN_TPL,],
     ];
-    return new \SavantPHP\SavantPHP($configBag);
+    return new SavantPHP($configBag);
 }
