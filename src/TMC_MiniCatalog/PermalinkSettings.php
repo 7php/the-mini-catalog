@@ -31,7 +31,6 @@ class PermalinkSettings
     public function initPermalinks()
     {
         $this->settings_init();
-        $this->settings();
     }
 
     public function settings_init()
@@ -59,18 +58,11 @@ class PermalinkSettings
 
     public function settings()
     {
-        echo wp_kses_post( __( 'Here you may change the TMC product URLs. This setting affects product URLs only.', PostTypeEnum::CUSTOM_TEXT_DOMAIN));
-
         $tpl               = tplObject();
         $tpl->permalinks   = $this->permalinks;
         $tpl->product_base =  $product_base = PostTypeEnum::REWRITE_SLUG;
-        $tpl->description  = esc_html_e('Enter a custom base to use. A base must be set or WordPress will use default instead.', PostTypeEnum::CUSTOM_TEXT_DOMAIN );
-
         $tpl->structures   = [0 => '', ];
 
-
-        //display tpl
-        $tpl->setTemplate('permalink-settings.tpl.php');
-        $tpl->display();
+        $tpl->display('permalink-settings.tpl.php');
     }
 }
