@@ -74,4 +74,15 @@ class PostTypeEnum
     const SHOW_IN_REST_API          = true; //Whether or not to show this post type data in the WP REST API.
     const REST_API_BASE_SLUG        = "tmc_product"; //Slug to use in REST API URLs.
     const RES_API_CONTROLLER_CLASS  = "WP_REST_Posts_Controller"; //Custom controller to use instead of WP_REST_Posts_Controller
+
+    //List of META FIELDS
+    const FIELD_PRICE               = "tmc_price";
+    const FIELD_DISPLAY_PRICE       = "tmc_display_price";
+    const FIELD_QUANTITY            = "tmc_quantity";
+    const FIELD_DISPLAY_QUANTITY    = "tmc_display_quantity";
+    const FIELD_PROMO_PRICE         = "tmc_promotional_price";
+    const FIELD_DISPLAY_PROMO       = "tmc_display_promo";
+    const FIELD_START_DATE          = "tmc_sales_start_date";
+    const FIELD_END_DATE            = "tmc_sales_end_date";
+    const FIELD_DISPLAY_DATE        = "tmc_display_date";
 }
