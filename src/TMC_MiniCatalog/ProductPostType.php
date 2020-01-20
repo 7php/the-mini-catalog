@@ -201,8 +201,8 @@ class ProductPostType
                                         ],
             "query_var"             => PostTypeEnum::QUERY_VAR,
             "supports"              => [    "title",
-                                            "editor",
-                                            "thumbnail"
+                                            //"thumbnail"
+                                            //"editor",
                                         ],
             "menu_icon"             => __(PostTypeEnum::MENU_ICON, $this->text_domain),
             "menu_position"         => __(PostTypeEnum::MENU_POSITION, $this->text_domain),
