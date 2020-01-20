@@ -51,6 +51,7 @@ add_action('admin_init', 'initPermalinks');
 add_action('admin_enqueue_scripts', 'tmc_enqueue_admin_script');
 add_action('init', 'initCustomPostType');
 add_filter('single_template', 'set_custom_template');
+applyPageTemplateOverride();
 
 /**
  * The code that runs during plugin activation.
@@ -147,4 +148,27 @@ function set_custom_template()
     if (PostTypeEnum::CUSTOM_POST_TYPE == get_post_type()) {
         return TMC_PLUGIN_ROOT . 'public/views/single-tmc_product.php';
     }
+}
+
+/**
+ * Add filter to override our custom created pages
+ */
+function applyPageTemplateOverride()
+{
+    add_filter('template_include', 'tmc_page_template_override', 99);
+}
+
+/**
+ * @param $template
+ * @return string
+ */
+function tmc_page_template_override($template)
+{
+    if (is_page('store')) {
+        $template = TMC_PLUGIN_ROOT . '/public/views/store-page.php';
+    }
+    if (is_page('mass-promo')) {
+        $template = TMC_PLUGIN_ROOT . '/public/views/mass-promo-page.php';
+    }
+    return $template;
 }
