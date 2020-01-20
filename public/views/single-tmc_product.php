@@ -3,10 +3,6 @@
  * The template for displaying all single posts
  *
  * @link https://developer.wordpress.org/themes/basics/template-hierarchy/#single-post
- *
- * @package WordPress
- * @subpackage Twenty_Nineteen
- * @since 1.0.0
  */
 use TMC_MiniCatalog\PostTypeEnum;
 
@@ -14,7 +10,6 @@ get_header()?>
 <?php
 /** @var WP_Query $wp_query */
 global $wp_query;
-$post_type       = PostTypeEnum::CUSTOM_POST_TYPE;
 $postmeta_values = get_post_meta(get_the_ID());
 ?>
 <div id="primary" class="content-area">
