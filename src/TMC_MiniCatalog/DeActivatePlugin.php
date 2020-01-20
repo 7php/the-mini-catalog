@@ -5,6 +5,11 @@
  * Mainly used to do less important stuffs than Uninstall
  * for e.g: deleting plugin options and custom tables, etc
  * ref: https://developer.wordpress.org/plugins/plugin-basics/activation-deactivation-hooks/
+ *
+ * @author Khayrattee Wasseem <wasseem@khayrattee.com>
+ * @copyright Copyright (c) 2020 Wasseem Khayrattee
+ * @license GPL-3.0
+ * @link https://7php.com (website)
  */
 
 namespace TMC_MiniCatalog;

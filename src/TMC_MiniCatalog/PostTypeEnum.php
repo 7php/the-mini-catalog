@@ -1,6 +1,11 @@
 <?php
 /**
  * Contains a list of all the Attributes for our Custom Post Type
+ *
+ * @author Khayrattee Wasseem <wasseem@khayrattee.com>
+ * @copyright Copyright (c) 2020 Wasseem Khayrattee
+ * @license GPL-3.0
+ * @link https://7php.com (website)
  */
 
 namespace TMC_MiniCatalog;

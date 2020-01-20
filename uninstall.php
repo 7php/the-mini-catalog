@@ -9,6 +9,11 @@
  * - Repeat things for multisite. Once for a single site in the network, once sitewide.
  *
  * ref: https://github.com/DevinVinson/WordPress-Plugin-Boilerplate/blob/master/plugin-name/uninstall.php
+ *
+ * @author Khayrattee Wasseem <wasseem@khayrattee.com>
+ * @copyright Copyright (c) 2020 Wasseem Khayrattee
+ * @license GPL-3.0
+ * @link https://7php.com (website)
  */
 if (! defined('WP_UNINSTALL_PLUGIN')) {
     exit;

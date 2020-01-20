@@ -2,6 +2,10 @@
 /**
  * The Mini Catalog (TMC)
  * @package the_mini_catalog
+ * @author Khayrattee Wasseem <wasseem@khayrattee.com>
+ * @copyright Copyright (c) 2020 Wasseem Khayrattee
+ * @license GPL-3.0
+ * @link https://7php.com (website)
  *
  * @wordpress-plugin
  * Plugin Name:       The Mini Catalog
@@ -12,7 +16,7 @@
  * Requires PHP:      7.2
  * Author:            Khayrattee Wasseem
  * Author URI:        https://7php.com
- * License:           GPL v2 or later
+ * License:           GPL-3.0
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       the-mini-catalog
  * Domain Path:       /languages

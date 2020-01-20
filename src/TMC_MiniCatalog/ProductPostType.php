@@ -7,6 +7,11 @@
  *      2) as we will often need to use action & filters, better to use singleton VS Static methods
  *
  * ref: https://7php.com/how-to-code-a-singleton-design-pattern-in-php-5/
+ *
+ * @author Khayrattee Wasseem <wasseem@khayrattee.com>
+ * @copyright Copyright (c) 2020 Wasseem Khayrattee
+ * @license GPL-3.0
+ * @link https://7php.com (website)
  */
 
 namespace TMC_MiniCatalog;
